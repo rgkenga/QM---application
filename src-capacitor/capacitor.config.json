@@ -1,0 +1,9 @@
+{
+  "appId": "org.qualitymonitor.quasar.app",
+  "appName": "QualityMonitor",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https",
+    "url": "http://192.168.31.27:9500"
+  }
+}
