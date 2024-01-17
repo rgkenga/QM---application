@@ -23,10 +23,14 @@ export const useReportStore = defineStore('report', {
     },
     async createReport (params) {
       try {
-        const response = await fetch(params.images[0].src)
-        const blob = await response.blob()
         const form = new FormData()
-        form.append('files', blob)
+        for (const image of params.images) {
+          const { blob, fileName } = await this.upload(image)
+          form.append('files', blob, fileName)
+        }
+        /* const { blob, fileName } = await this.upload(params.images[0])
+        form.append('files', blob, fileName) */
+
         await api.post('reports/create', form, {
           headers: {
             'Content-Type': 'multipart/form-data'
@@ -34,6 +38,19 @@ export const useReportStore = defineStore('report', {
         })
       } catch (error) {
         console.log('---createReport', JSON.stringify(error))
+      }
+    },
+    async upload (file) {
+      try {
+        console.log('-----UPLOAD')
+        const response = await fetch(file.src)
+        const blob = await response.blob()
+        const parsedUrl = new URL(file.src)
+        const pathSegments = parsedUrl.pathname.split('/')
+        const fileName = pathSegments[pathSegments.length - 1]
+        return { blob, fileName }
+      } catch (error) {
+        console.log('Ошибка загрузки файлов')
       }
     }
   }

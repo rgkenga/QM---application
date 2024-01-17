@@ -99,7 +99,7 @@
 
 <script>
 import { defineComponent, ref, onMounted, computed, watch } from 'vue'
-import { Camera, CameraResultType } from '@capacitor/camera'
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'
 import { registerPlugin } from '@capacitor/core'
 /* import { LocationAccuracy } from '@ionic-native/location-accuracy' */
 /* import { LocationAccuracy } from '@ionic-native/location-accuracy' */
@@ -357,8 +357,8 @@ export default defineComponent({
         const image = await Camera.getPhoto({
           quality: 90,
           allowEditing: false,
-          source: 'CAMERA',
-          resultType: CameraResultType.Uri
+          resultType: CameraResultType.Uri,
+          source: CameraSource.Camera
         })
         console.log('---image', image)
         const img = ref({})
